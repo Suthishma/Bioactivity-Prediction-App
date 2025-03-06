@@ -14,7 +14,7 @@ def desc_calc(chembl_id, canonical_smiles):
         file.write(canonical_smiles)
 
     # Perform the descriptor calculation
-    bashCommand = f"java -Xms2G -Xmx2G -Djava.awt.headless=true -jar PaDEL-Descriptor/PaDEL-Descriptor.jar -removesalt -standardizenitro -fingerprints -descriptortypes PaDEL-Descriptor/PubchemFingerprinter.xml -dir . -file descriptors_output.csv molecule.smi"
+    bashCommand = "java -Xms2G -Xmx2G -Djava.awt.headless=true -jar PaDEL-Descriptor/PaDEL-Descriptor.jar -removesalt -standardizenitro -fingerprints -descriptortypes PaDEL-Descriptor/PubchemFingerprinter.xml -dir . -file descriptors_output.csv molecule.smi"
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
     os.remove('molecule.smi')
