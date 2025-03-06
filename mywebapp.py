@@ -14,7 +14,7 @@ def desc_calc(chembl_id, canonical_smiles):
         file.write(canonical_smiles)
 
     # Perform the descriptor calculation
-    bashCommand = f"java -Xms2G -Xmx2G -Djava.awt.headless=true -jar C:/Users/HP/AppData/Local/Programs/Python/Python312/Scripts/Drug_ML_Project/PaDEL-Descriptor/PaDEL-Descriptor.jar -removesalt -standardizenitro -fingerprints -descriptortypes C:/Users/HP/AppData/Local/Programs/Python/Python312/Scripts/Drug_ML_Project/PaDEL-Descriptor/PubchemFingerprinter.xml -dir C:/Users/HP/AppData/Local/Programs/Python/Python312/Scripts/Drug_ML_Project -file descriptors_output.csv molecule.smi"
+    bashCommand = f"java -Xms2G -Xmx2G -Djava.awt.headless=true -jar PaDEL-Descriptor/PaDEL-Descriptor.jar -removesalt -standardizenitro -fingerprints -descriptortypes PaDEL-Descriptor/PubchemFingerprinter.xml -dir . -file descriptors_output.csv molecule.smi"
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
     os.remove('molecule.smi')
@@ -34,8 +34,9 @@ def build_model(input_data):
         load_data = pd.DataFrame({'chembl_id': [chembl_id], 'canonical_smiles': [canonical_smiles]})
 
         # Load the trained model
-        with open('C:/Users/HP/AppData/Local/Programs/Python/Python312/Scripts/Drug_ML_Project/ML_best_acetyl_best_model_final.pkl', 'rb') as f:
-            loaded_model = pickle.load(f)
+        with open('ML_best_acetyl_best_model_final.pkl', 'rb') as f:
+         loaded_model = pickle.load(f)
+
 
         # Apply preprocessing to match the features used during model training
         # ... (preprocessing code)
@@ -56,7 +57,7 @@ def build_model(input_data):
 # ... (previous code)
 
 # Logo image
-image = Image.open('C:/Users/HP/AppData/Local/Programs/Python/Python312/Scripts/Drug_ML_Project/drugimg3-transformed.jpeg')
+image = Image.open('drugimg3-transformed.jpeg')
 
 st.image(image, use_column_width=True)
 
