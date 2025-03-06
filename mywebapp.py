@@ -59,7 +59,8 @@ def build_model(input_data):
 # Logo image
 image = Image.open('drugimg3-transformed.jpeg')
 
-st.image(image, use_column_width=True)
+st.image(image, use_container_width=True)
+
 
 # Page title
 st.markdown("""
