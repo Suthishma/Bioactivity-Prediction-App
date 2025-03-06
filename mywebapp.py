@@ -15,9 +15,16 @@ def desc_calc(chembl_id, canonical_smiles):
 
     # Perform the descriptor calculation
     bashCommand = "java -Xms2G -Xmx2G -Djava.awt.headless=true -jar PaDEL-Descriptor/PaDEL-Descriptor.jar -removesalt -standardizenitro -fingerprints -descriptortypes PaDEL-Descriptor/PubchemFingerprinter.xml -dir . -file descriptors_output.csv molecule.smi"
-    process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-    output, error = process.communicate()
-    os.remove('molecule.smi')
+    try:
+        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output, error = process.communicate()
+
+        if process.returncode != 0:
+            raise Exception(f"PaDEL execution failed: {error.decode('utf-8')}")
+        
+        os.remove("molecule.smi")
+    except Exception as e:
+        st.error(f"Error running PaDEL-Descriptor: {e}")
 
 # File download
 def filedownload(df):
